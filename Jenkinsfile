@@ -4,20 +4,16 @@ pipeline {
         stage('Clone repository Jenkins') {
             steps {
                 checkout(scm)
-                sh "pwd"
-                sh "ls -lah"
             }
         }
 
         stage('Build and Push Docker Frontend Image') {
             steps {
-                sh "pwd"
                 dir("frontend") {
-                    sh "pwd"
-                    //def frontend = docker.Build("josehenaoo/frontend")
-                    //docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                    //    frontend.push("latest")
-                    //}
+                    def frontend = docker.Build("josehenaoo/frontend")
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                        frontend.push("latest")
+                    }
                 }
             }
         }
