@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Clone repository Jenkins') {
             steps {
-                checkout(cms)
+                checkout(scm)
                 // git credentialsId: '7863e0ee-f77e-469d-96fe-0d83bd7c83a2', url: 'https://github.com/chosky/microservice-app-DevOps-Training.git'
                 sh "pwd"
                 sh "ls -lah"
