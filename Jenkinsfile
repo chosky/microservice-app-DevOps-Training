@@ -11,6 +11,7 @@ pipeline {
             agent {
                 docker {
                     args '-u root'
+                    image 'frontend'
                 }
             }
             steps {
