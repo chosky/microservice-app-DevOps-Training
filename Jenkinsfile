@@ -1,14 +1,19 @@
 pipeline {
+    agent any
     stages {
         stage('Clone repository Jenkins') {
-            checkout scm
+            steps {
+                checkout scm
+            }
         }
 
         stage('Build and Push Docker Frontend Image') {
-            dir('frontend') {
-                def frontend = docker.Build("josehenaoo/frontend")
-                docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                    frontend.push("latest")
+            steps {
+                dir('frontend') {
+                    def frontend = docker.Build("josehenaoo/frontend")
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                        frontend.push("latest")
+                    }
                 }
             }
         }
