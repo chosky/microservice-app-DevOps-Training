@@ -8,10 +8,15 @@ pipeline {
         }
 
         stage('Build and Push Docker Frontend Image') {
+            agent {
+                docker {
+                    args '-u root'
+                }
+            }
             steps {
                 dir("frontend") {
                     script {
-                        def frontend = docker.build('josehenaoo/frontend')
+                        def frontend = docker.build('frontend')
                         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
                             frontend.push("latest")
                         }
