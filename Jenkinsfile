@@ -8,12 +8,6 @@ pipeline {
         }
 
         stage('Build and Push Docker Frontend Image') {
-            agent {
-                docker {
-                    args '-u root:sudo'
-                    image 'frontend'
-                }
-            }
             steps {
                 dir("frontend") {
                     script {
