@@ -11,7 +11,7 @@ pipeline {
             steps {
                 dir("frontend") {
                     script {
-                        sh "sudo docker build --tag frontend ."
+                        sh "docker build --tag frontend ."
                         //def frontend = docker.build('frontend')
                         //docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
                         //    frontend.push("latest")
