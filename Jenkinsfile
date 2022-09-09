@@ -4,8 +4,8 @@ pipeline {
     }
 
     stages {
-        stage('') {
-            
+        stage('test') {
+            println "Hello Word"
         }
     }
 }
