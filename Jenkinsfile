@@ -24,7 +24,7 @@ pipeline {
             steps {
                 dir("users-api") {
                     script {
-                        def usersApi = docker.build('users-api')
+                        def usersApi = docker.build('josehenaoo/users-api')
                         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
                             usersApi.push("latest")
                         }
