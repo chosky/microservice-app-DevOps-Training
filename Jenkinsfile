@@ -6,7 +6,7 @@ pipeline {
                 checkout(scm)
             }
         }
-
+        /**
         stage('Build and Push Docker Frontend Image') {
             steps {
                 dir("frontend") {
@@ -14,6 +14,19 @@ pipeline {
                         def frontend = docker.build('frontend')
                         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
                             frontend.push("latest")
+                        }
+                    }
+                }
+            }
+        }**/
+
+        stage('Build and Push Docker Users-API Image') {
+            steps {
+                dir("users-api") {
+                    script {
+                        def usersApi = docker.build('users-api')
+                        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                            usersApi.push("latest")
                         }
                     }
                 }
