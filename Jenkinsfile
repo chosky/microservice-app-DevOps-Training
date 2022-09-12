@@ -33,30 +33,72 @@ pipeline {
             }
         }
 
+        stage('Build and Push Docker Auth-API Image') {
+            steps {
+                dir("auth-api") {
+                    script {
+                        def authApi = docker.build('josehenaoo/auth-api')
+                        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                            authApi.push("latest")
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Build and Push Docker Log-Message-Processor Image') {
+            steps {
+                dir("log-message-processor") {
+                    script {
+                        def logMessageProcessor = docker.build('josehenaoo/log-message-processor')
+                        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                            logMessageProcessor.push("latest")
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Build and Push Docker TODOs-API Image') {
+            steps {
+                dir("todos-api") {
+                    script {
+                        def todosApi = docker.build('josehenaoo/todos-api')
+                        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                            todosApi.push("latest")
+                        }
+                    }
+                }
+            }
+        }
+
         /**
-        stage('Connet to Bastion') {
+        stage('Deploy application') {
             steps {
-                printl("Clone Repository")
+                script {
+                    sh "ssh -i /home/ubuntu/.ssh/josehenao-rampup-key.pem ubuntu@${ipBastion}"
+                    printl("Cloning repository")
+                    checkout scm
+                    sh "cd microservice-app-DevOps-Training/ansible"
+                    println("Executing Ansible")
+                    sh "ansible-playbook -i inventory.yml docker_install.yml"
+                }
             }
         }
 
-        stage('Clone repository Bastion') {
+        stage('Deploy application') {
             steps {
-                checkout scm
+                sh "ssh -i /home/ubuntu/.ssh/josehenao-rampup-key.pem ubuntu@${ipBastion}"
+                dir("ansible") {
+                    ansiblePlaybook (
+                        inventory: '/home/ubuntu/microservice-app-DevOps-Training/ansible/inventory.yml',
+                        installation: 'ansible',
+                        limit: '',
+                        playbook: '/home/ubuntu/microservice-app-DevOps-Training/ansible/docker_install.yml',
+                        extras: ''
+                    )
+                }
             }
-        }
-
-        stage('Execute Ansible Bastion') {
-            steps {
-                ansiblePlaybook (
-                    inventory: '/home/ubuntu/microservice-app-DevOps-Training/ansible/inventory.yml',
-                    installation: 'ansible',
-                    limit: '',
-                    playbook: '/home/ubuntu/microservice-app-DevOps-Training/ansible/docker_install.yml',
-                    extras: ''
-                )
-            }
-        }
-        **/
+        }**/
     }
 }
