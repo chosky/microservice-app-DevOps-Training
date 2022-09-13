@@ -72,6 +72,15 @@ pipeline {
             }
         }
 
+        
+        stage('Deploy application') {
+            steps {
+                sshagent(credentials: ['ssh-aws-credentials']) {
+                    sh 'ssh ubuntu@10.1.1.58 ansible-playbook -i ansible/inventory.yml ansible/docker_install.yml '
+                }
+            }
+        }
+        
         /**
         stage('Deploy application') {
             steps {
