@@ -84,20 +84,6 @@ pipeline {
         /**
         stage('Deploy application') {
             steps {
-                script {
-                    sh "ssh -i /home/ubuntu/.ssh/josehenao-rampup-key.pem ubuntu@${ipBastion}"
-                    printl("Cloning repository")
-                    checkout scm
-                    sh "cd microservice-app-DevOps-Training/ansible"
-                    println("Executing Ansible")
-                    sh "ansible-playbook -i inventory.yml docker_install.yml"
-                }
-            }
-        }
-
-        stage('Deploy application') {
-            steps {
-                sh "ssh -i /home/ubuntu/.ssh/josehenao-rampup-key.pem ubuntu@${ipBastion}"
                 dir("ansible") {
                     ansiblePlaybook (
                         inventory: '/home/ubuntu/microservice-app-DevOps-Training/ansible/inventory.yml',
