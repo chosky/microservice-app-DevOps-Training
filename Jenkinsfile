@@ -76,7 +76,7 @@ pipeline {
         stage('Deploy application') {
             steps {
                 sshagent(['ssh-aws-credentials']) {
-                    sh 'ssh ubuntu@10.1.10.68 ansible-playbook -i ansible/inventory.yml ansible/docker_install.yml '
+                    sh 'ssh -o StrictHostKeyChecking=no ubuntu@10.1.10.68 ansible-playbook -i ansible/inventory.yml ansible/docker_install.yml '
                 }
             }
         }
