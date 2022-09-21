@@ -1,0 +1,46 @@
+all:
+  children:
+      aws_hosts_docker:
+        hosts:
+          frontend:
+            ansible_name: frontend
+            ansible_host: 54.67.42.93 #{{ frontend }}
+            ansible_user: ubuntu
+            ansible_ssh_private_key_file: ~/.ssh/josehenao-rampup-key.pem #{{ ssh_path_file }}
+
+          auth_api:
+            ansible_name: auth_api
+            ansible_host: 10.1.89.64 #{{ auth_api }}
+            ansible_user: ubuntu
+            ansible_ssh_private_key_file: ~/.ssh/josehenao-rampup-key.pem #{{ ssh_path_file }}
+          
+          users_api:
+            ansible_name: users_api
+            ansible_host: 10.1.90.86 #{{ users_api }}
+            ansible_user: ubuntu
+            ansible_ssh_private_key_file: ~/.ssh/josehenao-rampup-key.pem #{{ ssh_path_file }}
+
+          todos_api:
+            ansible_name: todos_api
+            ansible_host: 10.1.94.183 #{{ todos_api }}
+            ansible_user: ubuntu
+            ansible_ssh_private_key_file: ~/.ssh/josehenao-rampup-key.pem #{{ ssh_path_file }}
+
+          redis:
+            ansible_name: redis
+            ansible_host: 10.1.93.154 #{{ redis }}
+            ansible_user: ubuntu
+            ansible_ssh_private_key_file: ~/.ssh/josehenao-rampup-key.pem #{{ ssh_path_file }}
+
+          log_message_processor:
+            ansible_name: log_message_processor
+            ansible_host: 10.1.90.146 #{{ log-message-processor }}
+            ansible_user: ubuntu
+            ansible_ssh_private_key_file: ~/.ssh/josehenao-rampup-key.pem
+      
+      aws_host_jenkins:
+          jenkins:
+            ansible_name: jenkins
+            ansible_host: 54.193.202.40 #{{ jenkins }}
+            ansible_user: ubuntu
+            ansible_ssh_private_key_file: ~/.ssh/josehenao-rampup-key.pem

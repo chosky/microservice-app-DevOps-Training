@@ -1,0 +1,64 @@
+---
+- hosts: aws_host_jenkins
+  become: true
+  tasks:
+    - name: Install aptitude using apt
+      apt: name=aptitude state=latest update_cache=yes force_apt_get=yes
+    
+    - name: Install required system packages
+      apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - virtualenv
+        state: latest
+        update_cache: true
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+
+- hosts: jenkins
+  become: true
+  tasks:
+    - name: Updating OS
+      command: apt update
+
+    - name: Ensure apt key repository is installed
+      apt_key: url='https://pkg.jenkins.io/debian-stable/jenkins.io.key' state=present
+    
+    - name: Ensure Jenkins configuration
+      apt_repository: 
+        repo: 'deb https://pkg.jenkins.io/debian-stable binary/' 
+        state: present
+
+    - name: Install openjdk Java
+      apt:
+        name: openjdk-11-jdk
+        state: present
+
+    - name: Installing Jenkins
+      apt:
+        name: jenkins
+        state: latest
+
+    - name: Starting Jenkins
+      service:
+        name: jenkins
+        enabled: true
+        state: started

@@ -1,0 +1,8 @@
+ssh_path_file: ~/.ssh/josehenao-rampup-key.pem
+frontend: 54.67.42.93
+auth_api: 10.1.89.64
+users_api: 10.1.90.86
+todos_api: 10.1.94.183
+redis: 10.1.93.154
+log-message-processor: 10.1.90.146
+jenkins: 54.193.202.40
